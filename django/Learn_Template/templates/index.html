@@ -1,0 +1,99 @@
+{#{% load my_tag %} 写哪里都没问题#}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>query</title>
+    {% load staticfiles %}
+    {% load my_tag %}
+
+</head>
+<body>
+
+<h2>1.{ { 变量 } }</h2>
+
+<h4>
+    <li>如果render的是一个列表 {{ l }}</li>
+    <li>渲染的列表不能直接下标获取 .可以获取 {{ l.2 }}</li>
+
+    <li>如果render的是一个字典 {{ d.friend }}</li>
+    <li>如果render的是一个类对象 {{ c.sex }}</li>
+</h4>
+
+<h4>
+    <li>---test filter usage:---</li>
+    <li>person c.age + 10 = {{ d.age|add:10 }}</li>
+    <li>cap first: {{ testFilter|capfirst }}</li>
+    <li>cut:对字符串移除字符 {{ testFilter|cut:" " }}</li>
+    <li>date 原版：{{ t }}---->
+    date: {{ t|date:"Y-m-d" }}</li>
+    <li>default: {{ l2 }}----->{{ l2|default:"空空如也" }}</li>
+    <li>***safe:安全起见 后台的链接字符串不会直接在前端进行渲染
+    {{ link1 }}---->{{ link1|safe }}
+    </li>
+
+    <li>
+        成对出现的autoescape:暂时关掉浏览器的安全检查机制{{ link1 }}---->
+        {% autoescape off %}
+            {{ link1 }}
+        {% endautoescape %}
+    </li>
+</h4>
+
+<h2>2.{ % tag标签 % }</h2>
+
+<h4>
+    <ul>
+        <li>
+            if-else-elif-endif:可以嵌套
+            {% if d.age > 20 %} {{ d.name }}是个壮年
+            {% else %} {{ d.name }}是个小娃娃
+            {% endif %}
+        </li>
+{#    </ul><ul>#}
+        <li>for-endfor-forloop.counteri/revcounteri 循环-计数：
+            {% for name in l %}
+              {{ forloop.counter }} ： {{ name }}name
+            {% endfor %}
+        </li>
+        <li>forloop.first</li>
+        <li>empty:提醒作用</li>
+        <li>
+            csrf_token:post身份验证
+            <form action="{% url 'login' %}" method="get">
+                <p>姓名:<input type="text" name="username"></p>
+                <p>密码:<input type="password" name="password"></p>
+                <p><input type="submit"> </p>
+                {% csrf_token %}
+            </form>
+        </li>
+        <li>with-endwith :太长的名字换成一个简单的名字
+            {% with short=shjdcgjkhsgdksjaajhksgdvjkhag %}{{ short }}
+            {% endwith %}
+        </li>
+        <li>加载标签库 load</li>
+    </ul>
+
+    <ul>【重要】自定义filter（只能一个传参）和简易标签
+        <li>1.在app下面创建templatetags 的package</li>
+        <li>2.创建任意一个.py文件 里面写自定义的filter</li>
+        <li>3.该py文件固定的格式和变量名</li>
+        <li>4.在自己使用的html中导入标签 load my_tags</li>
+        测试结果：{{ d.age|filter_multi:3 }}
+        <li>simple_tag 不限制参数数目:
+            {% test_simple_tag 3 5%}
+        </li>
+    </ul>
+</h4>
+
+<h2>3.inheritant template的继承</h2>
+创建一个base，采用继承
+
+
+<script src="{% static 'jquery-3.3.1.js' %}"></script>
+<script>
+    $("h2").css("color","red")
+</script>
+
+</body>
+</html>

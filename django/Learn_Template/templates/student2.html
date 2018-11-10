@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{#只用修改block部分#}
+{% block content %}
+
+{#    如果想拿到父类的对应block的内容#}
+
+    {{ block.super}}
+
+    {% for student in student_list %}
+           <p>学号： {{ forloop.counter|add:100100 }}
+            姓名：{{ student }}</p>
+        {% endfor %}
+{% endblock %}

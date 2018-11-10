@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% load staticfiles %}
+    <title>show_time</title>
+</head>
+<body>
+
+after xuanran
+<h1>the time now is :{{ time }}</h1>
+
+<script src="{% static 'jquery-3.3.1.js' %}"></script>
+<script>
+    $("h1").css("color","blue")
+</script>
+
+</body>
+</html>
